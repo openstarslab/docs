@@ -1,0 +1,13 @@
+{
+  "name": "spark/core",
+  "autoload": {
+    "psr-4": {
+      "Spark\\Core\\": "lib/Core"
+    },
+    "exclude-from-classmap": [
+      "lib/**/Test/",
+      "plugins/**/Test/",
+      "tests/"
+    ]
+  }
+}
