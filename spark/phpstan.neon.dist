@@ -1,0 +1,12 @@
+includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+
+parameters:
+    level: max
+    treatPhpDocTypesAsCertain: false
+    tmpDir: ./.build/cache/phpstan
+    paths:
+        - web/core/lib
+        - web/core/tests
+        - web/plugins

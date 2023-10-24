@@ -9,5 +9,10 @@
       "plugins/**/Test/",
       "tests/"
     ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Spark\\Tests\\": "tests/"
+    }
   }
 }
