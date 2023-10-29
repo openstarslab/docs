@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "7404ba3dd350fe1498b45a5f2f23517a",
+  "content-hash": "710d88651c8709f5375d296f6b9c0319",
   "packages": [
     {
       "name": "spark/core",
@@ -12,7 +12,7 @@
       "dist": {
         "type": "path",
         "url": "web/core",
-        "reference": "a9b341054ab1f3385d5529b8b1f868d93d9a7e0d"
+        "reference": "ee43a7d5d985d5b5b5dd29f70c4e56ee4710c5c7"
       },
       "type": "library",
       "autoload": {
@@ -24,6 +24,11 @@
           "plugins/**/Test/",
           "tests/"
         ]
+      },
+      "autoload-dev": {
+        "psr-4": {
+          "Spark\\Tests\\": "tests/"
+        }
       },
       "transport-options": {
         "symlink": true,
@@ -4200,6 +4205,7 @@
   "minimum-stability": "dev",
   "stability-flags": {
     "jetbrains/phpstorm-stubs": 20,
+    "mockery/mockery": 20,
     "phpstan/phpstan": 20,
     "phpstan/phpstan-mockery": 20,
     "phpstan/phpstan-phpunit": 20,

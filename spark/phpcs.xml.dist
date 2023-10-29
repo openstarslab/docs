@@ -5,7 +5,7 @@
 >
     <file>web/core/lib</file>
     <file>web/core/tests</file>
-    <file>web/plugins</file>
+    <file>web/extensions</file>
 
     <arg name="basepath" value="."/>
     <arg name="extensions" value="php"/>

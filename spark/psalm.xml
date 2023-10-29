@@ -10,7 +10,7 @@
 >
     <projectFiles>
         <directory name="web/core/"/>
-        <directory name="web/plugins/"/>
+        <directory name="web/extensions/"/>
         <ignoreFiles>
             <directory name="web/core/tests/"/>
             <directory name="vendor/"/>

@@ -9,4 +9,4 @@ parameters:
     paths:
         - web/core/lib
         - web/core/tests
-        - web/plugins
+        - web/extensions
