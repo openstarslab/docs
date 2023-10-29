@@ -4,6 +4,7 @@
   "require": {
     "php": "~8.2.0 || ~8.3.0",
     "nulldark/container": "dev-master",
+    "nulldark/dbal": "dev-master",
     "nulldark/routing": "dev-master",
     "spark/core": "*"
   },

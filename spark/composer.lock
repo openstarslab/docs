@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "4af47e002ddcef2fe3f70501dee4234a",
+  "content-hash": "00d9d8cbadcacb3a3450b4d540e7c1d8",
   "packages": [
     {
       "name": "laminas/laminas-diactoros",
@@ -93,6 +93,53 @@
       "time": "2023-10-26T11:01:07+00:00"
     },
     {
+      "name": "nulldark/collection",
+      "version": "v2.0.0",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/nulldark/stdlib.git",
+        "reference": "309d3aac5f50621e91f4815f6a13e64359d38b48"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/nulldark/stdlib/zipball/309d3aac5f50621e91f4815f6a13e64359d38b48",
+        "reference": "309d3aac5f50621e91f4815f6a13e64359d38b48",
+        "shasum": ""
+      },
+      "require-dev": {
+        "bamarni/composer-bin-plugin": "1.8.2"
+      },
+      "type": "project",
+      "extra": {
+        "bamarni-bin": {
+          "bin-links": false,
+          "forward-command": true,
+          "target-directory": "tools"
+        }
+      },
+      "autoload": {
+        "psr-4": {
+          "Nulldark\\Stdlib\\": "src/Stdlib/"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "MIT"
+      ],
+      "authors": [
+        {
+          "name": "Dominik Szamburski",
+          "email": "dominikszamburski99@gmail.com"
+        }
+      ],
+      "description": "A library for representing and manipulating collections.",
+      "support": {
+        "issues": "https://github.com/nulldark/stdlib/issues",
+        "source": "https://github.com/nulldark/stdlib/tree/v2.0.0"
+      },
+      "time": "2023-10-19T12:41:35+00:00"
+    },
+    {
       "name": "nulldark/container",
       "version": "dev-master",
       "source": {
@@ -137,6 +184,58 @@
         "source": "https://github.com/nulldark/container/tree/master"
       },
       "time": "2023-10-10T18:15:20+00:00"
+    },
+    {
+      "name": "nulldark/dbal",
+      "version": "dev-master",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/nulldark/dbal.git",
+        "reference": "0a91f51360898cd193da68c038fe48d64180ede7"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/nulldark/dbal/zipball/0a91f51360898cd193da68c038fe48d64180ede7",
+        "reference": "0a91f51360898cd193da68c038fe48d64180ede7",
+        "shasum": ""
+      },
+      "require": {
+        "ext-pdo": "*",
+        "nulldark/collection": "^2.0.0"
+      },
+      "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.8"
+      },
+      "default-branch": true,
+      "type": "library",
+      "extra": {
+        "bamarni-bin": {
+          "bin-links": false,
+          "forward-command": true,
+          "target-directory": "tools"
+        }
+      },
+      "autoload": {
+        "psr-4": {
+          "Nulldark\\DBAL\\": "src/DBAL/"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "LGPL-2.1-only"
+      ],
+      "authors": [
+        {
+          "name": "Dominik Szamburski",
+          "email": "dominikszamburski99@gmail.com"
+        }
+      ],
+      "description": "DBAL Component",
+      "support": {
+        "issues": "https://github.com/nulldark/dbal/issues",
+        "source": "https://github.com/nulldark/dbal/tree/master"
+      },
+      "time": "2023-10-28T06:57:00+00:00"
     },
     {
       "name": "nulldark/routing",
@@ -4493,6 +4592,7 @@
   "minimum-stability": "dev",
   "stability-flags": {
     "nulldark/container": 20,
+    "nulldark/routing": 20,
     "jetbrains/phpstorm-stubs": 20,
     "mockery/mockery": 20,
     "phpstan/phpstan": 20,
