@@ -4,8 +4,108 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "710d88651c8709f5375d296f6b9c0319",
+  "content-hash": "34acb9b31b0518fcd7062a435d320521",
   "packages": [
+    {
+      "name": "nulldark/container",
+      "version": "dev-master",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/nulldark/container.git",
+        "reference": "185dcdc587da2268db988310793ac0c136d8c7b2"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/nulldark/container/zipball/185dcdc587da2268db988310793ac0c136d8c7b2",
+        "reference": "185dcdc587da2268db988310793ac0c136d8c7b2",
+        "shasum": ""
+      },
+      "require": {
+        "psr/container": "^2.0"
+      },
+      "require-dev": {
+        "phpstan/phpstan": "^1.10",
+        "phpunit/phpunit": "^10.4",
+        "squizlabs/php_codesniffer": "^3.7"
+      },
+      "default-branch": true,
+      "type": "library",
+      "autoload": {
+        "psr-4": {
+          "Nulldark\\Container\\": "src/Container/"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "LGPL-2.1-only"
+      ],
+      "authors": [
+        {
+          "name": "Dominik Szamburski",
+          "email": "dominikszamburski99@gmail.com"
+        }
+      ],
+      "description": "Dependency Injection, Service Container",
+      "support": {
+        "issues": "https://github.com/nulldark/container/issues",
+        "source": "https://github.com/nulldark/container/tree/master"
+      },
+      "time": "2023-10-10T18:15:20+00:00"
+    },
+    {
+      "name": "psr/container",
+      "version": "dev-master",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/php-fig/container.git",
+        "reference": "707984727bd5b2b670e59559d3ed2500240cf875"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/php-fig/container/zipball/707984727bd5b2b670e59559d3ed2500240cf875",
+        "reference": "707984727bd5b2b670e59559d3ed2500240cf875",
+        "shasum": ""
+      },
+      "require": {
+        "php": ">=7.4.0"
+      },
+      "default-branch": true,
+      "type": "library",
+      "extra": {
+        "branch-alias": {
+          "dev-master": "2.0.x-dev"
+        }
+      },
+      "autoload": {
+        "psr-4": {
+          "Psr\\Container\\": "src/"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "MIT"
+      ],
+      "authors": [
+        {
+          "name": "PHP-FIG",
+          "homepage": "https://www.php-fig.org/"
+        }
+      ],
+      "description": "Common Container Interface (PHP FIG PSR-11)",
+      "homepage": "https://github.com/php-fig/container",
+      "keywords": [
+        "PSR-11",
+        "container",
+        "container-interface",
+        "container-interop",
+        "psr"
+      ],
+      "support": {
+        "issues": "https://github.com/php-fig/container/issues",
+        "source": "https://github.com/php-fig/container"
+      },
+      "time": "2023-09-22T11:11:30+00:00"
+    },
     {
       "name": "spark/core",
       "version": "dev-main",
@@ -2089,60 +2189,6 @@
         "source": "https://github.com/psalm/psalm-plugin-phpunit/tree/master"
       },
       "time": "2023-03-05T04:05:37+00:00"
-    },
-    {
-      "name": "psr/container",
-      "version": "dev-master",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/php-fig/container.git",
-        "reference": "707984727bd5b2b670e59559d3ed2500240cf875"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/php-fig/container/zipball/707984727bd5b2b670e59559d3ed2500240cf875",
-        "reference": "707984727bd5b2b670e59559d3ed2500240cf875",
-        "shasum": ""
-      },
-      "require": {
-        "php": ">=7.4.0"
-      },
-      "default-branch": true,
-      "type": "library",
-      "extra": {
-        "branch-alias": {
-          "dev-master": "2.0.x-dev"
-        }
-      },
-      "autoload": {
-        "psr-4": {
-          "Psr\\Container\\": "src/"
-        }
-      },
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "MIT"
-      ],
-      "authors": [
-        {
-          "name": "PHP-FIG",
-          "homepage": "https://www.php-fig.org/"
-        }
-      ],
-      "description": "Common Container Interface (PHP FIG PSR-11)",
-      "homepage": "https://github.com/php-fig/container",
-      "keywords": [
-        "PSR-11",
-        "container",
-        "container-interface",
-        "container-interop",
-        "psr"
-      ],
-      "support": {
-        "issues": "https://github.com/php-fig/container/issues",
-        "source": "https://github.com/php-fig/container"
-      },
-      "time": "2023-09-22T11:11:30+00:00"
     },
     {
       "name": "psr/log",
