@@ -59,7 +59,7 @@ final class Spark extends Container implements SparkInterface
      */
     public function register(ServiceProvider $provider): ServiceProvider
     {
-        if ($registered = $this->getProvider($provider)) {
+        if (($registered = $this->getProvider($provider)) !== null) {
             return $registered;
         }
 
@@ -140,18 +140,18 @@ final class Spark extends Container implements SparkInterface
 
     private function registerBaseServiceProviders(): void
     {
-        $this->register(RoutingServiceProvider::class);
-        $this->register(ExtenesionServiceProvider::class);
+        $this->register(new RoutingServiceProvider($this));
+        $this->register(new ExtenesionServiceProvider($this));
     }
 
     private function initializeSettings(): void
     {
         \error_reporting(E_STRICT | E_ALL);
 
-        // Set sane locale settings, to ensure consistent.
+        // Set correct locale settings, to ensure consistent.
         \setlocale(\LC_ALL, 'C');
 
-        // Sets configuration for multi-byte strings.
+        // Sets configuration for multibyte strings.
         \mb_internal_encoding('utf8');
         \mb_language('uni');
 

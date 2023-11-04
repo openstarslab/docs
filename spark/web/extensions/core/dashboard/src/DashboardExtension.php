@@ -8,6 +8,5 @@ final class DashboardExtension extends Extension
 {
     public function boot(): void
     {
-
     }
 }

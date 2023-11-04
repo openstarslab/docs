@@ -33,7 +33,7 @@ use RecursiveDirectoryIterator;
 class RecursiveCallbackFilter
 {
     /**
-     * Checks if given directory is acceptable.
+     * Checks if given directory are acceptable.
      *
      * @param RecursiveDirectoryIterator $directory
      * @return bool `TRUE` if the `$directory` is acceptable, otherwise FALSE.
@@ -42,7 +42,7 @@ class RecursiveCallbackFilter
     {
         $name = $directory->getFilename();
 
-        if (str_starts_with('.', $name)) {
+        if (str_starts_with(".", $name)) {
             return false;
         }
 

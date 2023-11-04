@@ -29,17 +29,25 @@ use SplFileInfo;
 
 /**
  * @package Spark\Core\Extension
- * @version 0.1.0
+ * @since  0.1.0
+ *
+ * @phpstan-type ExtensionInfos = array{
+ *     'name': string,
+ *     'version': string,
+ *     'path': string,
+ *     'baseClass': string,
+ *     'autoload': array<string, array<string, string|string[]>>
+ * }
  */
 final class ExtensionLoader
 {
     /** @var bool $initialized */
     private bool $initialized = false;
 
-    /** @var array<array-key, array<string, mixed>>  */
+    /** @var list<ExtensionInfos> $extensionInfos */
     private array $extensionInfos = [];
 
-    /** @var array<string, Extension>|null $extensions */
+    /** @var array<string, Extension> $extensions */
     private array $extensions;
 
     public function __construct(
@@ -52,7 +60,7 @@ final class ExtensionLoader
     /**
      * Gets all loaded extensions.
      *
-     * @return Extension[]
+     * @return array<string, Extension>
      */
     public function getExtensions(): array
     {
@@ -83,7 +91,14 @@ final class ExtensionLoader
     {
         $this->getExtensionDiscovery()
             ->scanDirectory($this->extensionDir)
-            ->each(fn ($extension) => $this->loadExtensionInfos($extension));
+            ->each(function ($extension) {
+                if (!\is_array($extension)) {
+                    return;
+                }
+
+                /** @var array{path: string, pathname: string} $extension */
+                $this->loadExtensionInfos($extension);
+            });
 
         $this->registerNamespaces();
         $this->initializeExtensions();
@@ -119,12 +134,15 @@ final class ExtensionLoader
     /**
      * Gets an extensions instance.
      *
-     * @return iterable
+     * @return iterable<Extension>
      */
     private function registerExtensions(): iterable
     {
         foreach ($this->extensionInfos as $extensionInfo) {
-            yield new $extensionInfo['baseClass'](
+            /** @var Extension $class */
+            $class = $extensionInfo['baseClass'];
+
+            yield new $class(
                 $extensionInfo['name'],
                 $extensionInfo['version'],
                 $extensionInfo['path']
@@ -133,9 +151,9 @@ final class ExtensionLoader
     }
 
     /**
-     * Loads information about extension.
+     * Loads information about an extension.
      *
-     * @param array<array-key, array<string, string>> $extension
+     * @param array{path: string, pathname: string} $extension
      *
      * @return void
      */
@@ -151,10 +169,10 @@ final class ExtensionLoader
             $extra = $json['extra'];
 
             $this->extensionInfos[] = [
-                'path' => $extension['path'],
                 'name' => $extra['name'],
-                'baseClass' => $extra['baseClass'],
                 'version' => $extra['version'],
+                'path' => $extension['path'],
+                'baseClass' => $extra['baseClass'],
                 'autoload' => $json['autoload']
             ];
         }
@@ -182,13 +200,17 @@ final class ExtensionLoader
 
             $psr4 = $extension['autoload']['psr-4'] ?? [];
 
-            if (empty($psr4)) {
+            if (\count($psr4) === 0) {
                 throw new \RuntimeException(sprintf(
                     'Unable to register extension "%s" in autoload. Required property `psr-4` missing.',
                     $extensionName
                 ));
             }
 
+            /**
+             * @var string $namespace
+             * @var list<string>|string $paths
+             */
             foreach ($psr4 as $namespace => $paths) {
                 if (\is_string($paths)) {
                     $paths = [$paths];
@@ -210,7 +232,7 @@ final class ExtensionLoader
      * @param string[] $paths
      * @param string $extensionPath
      *
-     * @return array
+     * @return list<string>
      *
      * @throws RuntimeException
      */

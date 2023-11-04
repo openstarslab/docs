@@ -22,13 +22,14 @@
 
 namespace Spark\Core;
 
+use Nulldark\Container\ContainerInterface;
 use Spark\Core\Support\ServiceProvider;
 
 /**
  * @package Spark\Core
  * @version 0.1.0
  */
-interface SparkInterface
+interface SparkInterface extends ContainerInterface
 {
     /**
      * Determine if the application is booted.

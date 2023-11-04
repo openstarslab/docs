@@ -37,12 +37,13 @@ class ExtenesionServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        array_walk(
-            $this->spark->get(ExtensionLoader::class)->getExtensions(),
-            function (Extension $extension) {
+        /** @var ExtensionLoader $loader */
+        $loader = $this->spark->get(ExtensionLoader::class);
+        $extensions = $loader->getExtensions();
+
+        array_walk($extensions, function (Extension $extension) {
                 $extension->setContainer($this->spark);
                 $extension->boot();
-            }
-        );
+        });
     }
 }
