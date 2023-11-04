@@ -22,6 +22,7 @@
 
 namespace Spark\Core\Extension;
 
+use Composer\Autoload\ClassLoader;
 use Spark\Core\Support\ServiceProvider;
 
 /**
@@ -32,7 +33,13 @@ class ExtenesionServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->spark->singleton(ExtensionLoader::class, ExtensionLoader::class);
+        $extensionLoader = new ExtensionLoader(
+            $this->spark->path(),
+            $this->spark->path('extensions'),
+            $this->spark->get(ClassLoader::class)
+        );
+
+        $this->spark->set(ExtensionLoader::class, $extensionLoader);
     }
 
     public function boot(): void
