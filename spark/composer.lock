@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5aef0d0edee3515efabc0e5f23891ef4",
+    "content-hash": "84dfa0440f8bd07b973a7f812a3577a5",
     "packages": [
         {
             "name": "laminas/laminas-diactoros",
@@ -184,6 +184,53 @@
             "time": "2023-11-02T14:01:53+00:00"
         },
         {
+            "name": "nulldark/stdlib",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nulldark/stdlib.git",
+                "reference": "309d3aac5f50621e91f4815f6a13e64359d38b48"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nulldark/stdlib/zipball/309d3aac5f50621e91f4815f6a13e64359d38b48",
+                "reference": "309d3aac5f50621e91f4815f6a13e64359d38b48",
+                "shasum": ""
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "1.8.2"
+            },
+            "type": "project",
+            "extra": {
+                "bamarni-bin": {
+                    "bin-links": false,
+                    "forward-command": true,
+                    "target-directory": "tools"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nulldark\\Stdlib\\": "src/Stdlib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dominik Szamburski",
+                    "email": "dominikszamburski99@gmail.com"
+                }
+            ],
+            "description": "A library for representing and manipulating collections.",
+            "support": {
+                "issues": "https://github.com/nulldark/stdlib/issues",
+                "source": "https://github.com/nulldark/stdlib/tree/v2.0.0"
+            },
+            "time": "2023-10-19T12:41:35+00:00"
+        },
+        {
             "name": "psr/container",
             "version": "dev-master",
             "source": {
@@ -353,11 +400,12 @@
             "dist": {
                 "type": "path",
                 "url": "web/core",
-                "reference": "1e248b4bd60ede543568d0f5774a909588617dd2"
+                "reference": "387cf22defa26c6b4c2897912ffea1aa40af4ff7"
             },
             "require": {
                 "nulldark/container": "^0.1.0",
-                "nulldark/routing": "^1.0"
+                "nulldark/routing": "^1.0",
+                "nulldark/stdlib": "^2.0"
             },
             "type": "library",
             "autoload": {
@@ -365,8 +413,7 @@
                     "Spark\\Core\\": "lib/Core"
                 },
                 "exclude-from-classmap": [
-                    "lib/**/Test/",
-                    "plugins/**/Test/"
+                    "lib/**/Test/"
                 ]
             },
             "autoload-dev": {
@@ -4476,9 +4523,7 @@
         "phpstan/phpstan-phpunit": 20,
         "phpstan/phpstan-strict-rules": 20,
         "phpunit/phpunit": 20,
-        "psalm/plugin-phpunit": 20,
-        "squizlabs/php_codesniffer": 20,
-        "vimeo/psalm": 20
+        "squizlabs/php_codesniffer": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
