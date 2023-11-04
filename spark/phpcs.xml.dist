@@ -3,14 +3,14 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd"
 >
-    <file>web/core/lib</file>
-    <file>web/core/tests</file>
-    <file>web/extensions</file>
+    <file>./web/core/lib</file>
+    <file>./web/core/tests</file>
+    <file>./web/extensions</file>
 
     <arg name="basepath" value="."/>
     <arg name="extensions" value="php"/>
     <arg name="parallel" value="80"/>
-    <arg name="cache" value=".build/cache/phpcs/phpcs.cache"/>
+    <arg name="cache" value="./.build/cache/phpcs/phpcs.cache"/>
     <arg name="colors"/>
     <arg value="ps"/>
 

@@ -5,14 +5,16 @@
       "Spark\\Core\\": "lib/Core"
     },
     "exclude-from-classmap": [
-      "lib/**/Test/",
-      "plugins/**/Test/",
-      "tests/"
+      "lib/**/Test/"
     ]
   },
   "autoload-dev": {
     "psr-4": {
       "Spark\\Tests\\": "tests/"
     }
+  },
+  "require": {
+    "nulldark/container": "^0.1.0",
+    "nulldark/routing": "^1.0"
   }
 }
