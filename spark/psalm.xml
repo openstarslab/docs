@@ -4,7 +4,7 @@
         xmlns="https://getpsalm.org/schema/config"
         xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
         cacheDirectory="./.build/cache/psalm"
-        errorLevel="7"
+        errorLevel="1"
         findUnusedBaselineEntry="true"
         findUnusedCode="true"
 >
