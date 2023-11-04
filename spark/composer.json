@@ -40,17 +40,10 @@
     "phpstan/phpstan-phpunit": "1.4.x-dev",
     "phpstan/phpstan-strict-rules": "1.5.x-dev",
     "phpunit/phpunit": "^11.0@dev",
-    "psalm/plugin-phpunit": "dev-master",
-    "squizlabs/php_codesniffer": "4.0.x-dev",
-    "vimeo/psalm": "5.x-dev"
+    "squizlabs/php_codesniffer": "4.0.x-dev"
   },
   "scripts": {
-    "dev:analyze": [
-      "@dev:analyze:phpstan",
-      "@dev:analyze:psalm"
-    ],
-    "dev:analyze:phpstan": "vendor/bin/phpstan analyze --ansi --memory-limit=1G",
-    "dev:analyze:psalm": "vendor/bin/psalm --show-info=false --stats --",
+    "dev:analyze": "vendor/bin/phpstan analyze --ansi --memory-limit=1G",
     "dev:ci": [
       "@dev:analyze",
       "@dev:lint",

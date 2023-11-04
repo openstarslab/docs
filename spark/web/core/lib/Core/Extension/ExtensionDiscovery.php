@@ -31,12 +31,12 @@ use Spark\Core\Extension\Discovery\RecursiveCallbackFilter;
 
 /**
  * @package Spark\Core\Extension
- * @version 0.1.0
+ * @since 0.1.0
  */
 final readonly class ExtensionDiscovery
 {
     /**
-     * Returns collection with matching extensions files (composer.json).
+     * Returns a collection with matching extensions files (composer.json).
      *
      * @param string $directory
      * @return CollectionInterface
@@ -61,7 +61,8 @@ final readonly class ExtensionDiscovery
 
         $files = [];
 
-        foreach ($iterator as $key => $value) {
+        /** @var \SplFileInfo $value */
+        foreach ($iterator as $value) {
             $files[] = [
                 'path' => $value->getPath(),
                 'pathname' => $value->getPathname()
