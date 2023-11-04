@@ -22,6 +22,8 @@
 
 namespace Spark\Core;
 
+use Spark\Core\Support\ServiceProvider;
+
 /**
  * @package Spark\Core
  * @version 0.1.0
@@ -34,4 +36,28 @@ interface SparkInterface
      * @return bool
      */
     public function isBooted(): bool;
+
+    /**
+     * Registers a service provider with the application.
+     *
+     * @param ServiceProvider $provider
+     * @return ServiceProvider
+     */
+    public function register(ServiceProvider $provider): ServiceProvider;
+
+    /**
+     * Sets given service provider as registered.
+     *
+     * @param ServiceProvider $provider
+     * @return void
+     */
+    public function setProviderAsRegistered(ServiceProvider $provider): void;
+
+    /**
+     * Gets the registered service provider instance if not exists returns `NULL`.
+     *
+     * @param ServiceProvider $provider
+     * @return ServiceProvider|null
+     */
+    public function getProvider(ServiceProvider $provider): ServiceProvider|null;
 }

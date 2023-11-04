@@ -23,6 +23,7 @@
 namespace Spark\Core;
 
 use Nulldark\Container\Container;
+use Spark\Core\Support\ServiceProvider;
 
 /**
  * @package Spark\Core
@@ -36,6 +37,78 @@ final class Spark extends Container implements SparkInterface
      * @var bool $booted
      */
     private bool $booted;
+
+    /**
+     * All registered service providers.
+     *
+     * @var array<string, ServiceProvider> $serviceProviders
+     */
+    private array $serviceProviders = [];
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->registerBaseServiceProviders();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function register(ServiceProvider $provider): ServiceProvider
+    {
+        if ($registered = $this->getProvider($provider)) {
+            return $registered;
+        }
+
+        $provider->register();
+
+        $this->setProviderAsRegistered($provider);
+
+        if ($this->isBooted()) {
+            $this->bootProvider($provider);
+        }
+        return $provider;
+    }
+
+    /**
+     * Sets given service provider as registered.
+     *
+     * @param ServiceProvider $provider
+     * @return void
+     */
+    public function setProviderAsRegistered(ServiceProvider $provider): void
+    {
+        $this->serviceProviders[get_class($provider)] = $provider;
+    }
+
+    /**
+     * Gets the registered service provider instance if not exists returns `NULL`.
+     *
+     * @param ServiceProvider $provider
+     * @return ServiceProvider|null
+     */
+    public function getProvider(ServiceProvider $provider): ServiceProvider|null
+    {
+        if (array_key_exists(get_class($provider), $this->serviceProviders)) {
+            return $this->serviceProviders[get_class($provider)];
+        }
+
+        return null;
+    }
+
+    /**
+     * Boots a service provider.
+     *
+     * @param ServiceProvider $provider
+     * @return void
+     */
+    public function bootProvider(ServiceProvider $provider): void
+    {
+        if (method_exists($provider, 'boot')) {
+            $provider->boot();
+        }
+    }
 
     /**
      * Boots an application.
@@ -61,6 +134,11 @@ final class Spark extends Container implements SparkInterface
     public function isBooted(): bool
     {
         return $this->booted;
+    }
+
+    private function registerBaseServiceProviders(): void
+    {
+
     }
 
     private function initializeSettings(): void
