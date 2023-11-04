@@ -61,4 +61,12 @@ interface SparkInterface extends ContainerInterface
      * @return ServiceProvider|null
      */
     public function getProvider(ServiceProvider $provider): ServiceProvider|null;
+
+    /**
+     * Gets the path
+     *
+     * @param string $path
+     * @return string
+     */
+    public function path(string $path = ''): string;
 }

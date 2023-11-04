@@ -1,4 +1,5 @@
 <?php
-    require_once __DIR__ . '/../vendor/autoload.php';
+    require __DIR__ . '/autoload.php';
 
-    echo phpinfo();
+    $spark = new \Spark\Core\Spark(__DIR__);
+    $spark->boot();

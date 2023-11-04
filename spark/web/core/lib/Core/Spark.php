@@ -22,6 +22,7 @@
 
 namespace Spark\Core;
 
+use Composer\Autoload\ClassLoader;
 use Nulldark\Container\Container;
 use Spark\Core\Extension\ExtenesionServiceProvider;
 use Spark\Core\Routing\RoutingServiceProvider;
@@ -47,11 +48,52 @@ final class Spark extends Container implements SparkInterface
      */
     private array $serviceProviders = [];
 
-    public function __construct()
-    {
-        parent::__construct();
+    /**
+     * The base path for Spark instance.
+     *
+     * @var string $basePath
+     */
+    private string $basePath;
 
+    /**
+     * The composer class loader.
+     *
+     * @var ?ClassLoader $classLoader
+     */
+    private ?ClassLoader $classLoader = null;
+
+    /**
+     * @param string $basePath
+     * @return void
+     */
+    public function __construct(string $basePath = '')
+    {
+        $this->setBasePath($basePath);
+
+        $this->registerBaseBindings();
         $this->registerBaseServiceProviders();
+
+        parent::__construct();
+    }
+
+    /**
+     * Sets the base path for the Spark.
+     *
+     * @param string $basePath
+     * @return self
+     */
+    public function setBasePath(string $basePath): self
+    {
+        $this->basePath = rtrim($basePath, '\/');
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function path(string $path = ''): string
+    {
+        return $this->basePath . ($path != '' ? DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR) : '');
     }
 
     /**
@@ -125,6 +167,10 @@ final class Spark extends Container implements SparkInterface
 
         $this->initializeSettings();
 
+        array_walk($this->serviceProviders, function (ServiceProvider $provider) {
+            $this->bootProvider($provider);
+        });
+
         $this->booted = true;
 
         return $this;
@@ -136,6 +182,32 @@ final class Spark extends Container implements SparkInterface
     public function isBooted(): bool
     {
         return $this->booted;
+    }
+
+    private function registerBaseBindings(): void
+    {
+        static::setInstance($this);
+
+        // set instances into container
+        $this->set(Spark::class, $this);
+        $this->set(Container::class, $this);
+        $this->set(ClassLoader::class, $this->getClassLoader());
+
+        $this->bind(SparkInterface::class, Spark::class, true);
+    }
+
+    /**
+     * Gets a class loader instance.
+     *
+     * @return ClassLoader
+     */
+    public function getClassLoader(): ClassLoader
+    {
+        if ($this->classLoader !== null) {
+            return $this->classLoader;
+        }
+
+        return $this->classLoader = require $this->path('autoload.php');
     }
 
     private function registerBaseServiceProviders(): void
