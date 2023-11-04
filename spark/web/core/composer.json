@@ -5,9 +5,7 @@
       "Spark\\Core\\": "lib/Core"
     },
     "exclude-from-classmap": [
-      "lib/**/Test/",
-      "plugins/**/Test/",
-      "tests/"
+      "lib/**/Test/"
     ]
   },
   "autoload-dev": {

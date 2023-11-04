@@ -26,11 +26,15 @@
     "platform": {
       "php": "8.2"
     },
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "phpstan/extension-installer": true
+    }
   },
   "require-dev": {
     "jetbrains/phpstorm-stubs": "dev-master",
     "mockery/mockery": "2.0.x-dev",
+    "phpstan/extension-installer": "^1.3",
     "phpstan/phpstan": "1.11.x-dev",
     "phpstan/phpstan-mockery": "1.1.x-dev",
     "phpstan/phpstan-phpunit": "1.4.x-dev",
@@ -46,7 +50,7 @@
       "@dev:analyze:psalm"
     ],
     "dev:analyze:phpstan": "vendor/bin/phpstan analyze --ansi --memory-limit=1G",
-    "dev:analyze:psalm": "vendor/bin/psalm --show-info=false --stats -- --shepherd",
+    "dev:analyze:psalm": "vendor/bin/psalm --show-info=false --stats --",
     "dev:ci": [
       "@dev:analyze",
       "@dev:lint",
