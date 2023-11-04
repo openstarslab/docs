@@ -1,6 +1,6 @@
 <?php
 
-namespace Spark\Tests;
+namespace Spark\Tests\Unit;
 
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;

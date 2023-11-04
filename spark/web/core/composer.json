@@ -3,14 +3,6 @@
   "autoload": {
     "psr-4": {
       "Spark\\Core\\": "lib/Core"
-    },
-    "exclude-from-classmap": [
-      "lib/**/Test/"
-    ]
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Spark\\Tests\\": "tests/"
     }
   },
   "require": {

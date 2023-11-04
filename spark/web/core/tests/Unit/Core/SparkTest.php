@@ -25,7 +25,7 @@ namespace Spark\Tests\Units\Core;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Spark\Core\Spark;
 use Spark\Tests\Stub\ServiceProviderStub;
-use Spark\Tests\TestCase;
+use Spark\Tests\Unit\TestCase;
 
 #[CoversClass(Spark::class)]
 class SparkTest extends TestCase

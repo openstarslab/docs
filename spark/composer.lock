@@ -353,7 +353,7 @@
             "dist": {
                 "type": "path",
                 "url": "web/core",
-                "reference": "1e248b4bd60ede543568d0f5774a909588617dd2"
+                "reference": "4567159d999b586dbe2035bfb4d57ad25d5f80f7"
             },
             "require": {
                 "nulldark/container": "^0.1.0",
@@ -363,15 +363,6 @@
             "autoload": {
                 "psr-4": {
                     "Spark\\Core\\": "lib/Core"
-                },
-                "exclude-from-classmap": [
-                    "lib/**/Test/",
-                    "plugins/**/Test/"
-                ]
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Spark\\Tests\\": "tests/"
                 }
             },
             "transport-options": {
