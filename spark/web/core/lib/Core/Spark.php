@@ -38,7 +38,7 @@ final class Spark extends Container implements SparkInterface
      *
      * @var bool $booted
      */
-    private bool $booted;
+    private bool $booted = false;
 
     /**
      * All registered service providers.

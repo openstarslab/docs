@@ -20,12 +20,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Spark\Tests\Units\Core;
+namespace Spark\Tests\Unit\Core;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use Spark\Core\Spark;
 use Spark\Tests\Stub\ServiceProviderStub;
-use Spark\Tests\TestCase;
+use Spark\Tests\Unit\TestCase;
 
 #[CoversClass(Spark::class)]
 class SparkTest extends TestCase
