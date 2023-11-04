@@ -24,6 +24,7 @@ namespace Spark\Core;
 
 use Nulldark\Container\Container;
 use Spark\Core\Extension\ExtenesionServiceProvider;
+use Spark\Core\Routing\RoutingServiceProvider;
 use Spark\Core\Support\ServiceProvider;
 
 /**
@@ -139,6 +140,7 @@ final class Spark extends Container implements SparkInterface
 
     private function registerBaseServiceProviders(): void
     {
+        $this->register(RoutingServiceProvider::class);
         $this->register(ExtenesionServiceProvider::class);
     }
 
