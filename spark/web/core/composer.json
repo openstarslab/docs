@@ -14,5 +14,9 @@
     "psr-4": {
       "Spark\\Tests\\": "tests/"
     }
+  },
+  "require": {
+    "nulldark/container": "^0.1.0",
+    "nulldark/routing": "^1.0"
   }
 }
