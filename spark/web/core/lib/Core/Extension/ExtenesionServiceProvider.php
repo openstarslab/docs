@@ -36,10 +36,10 @@ class ExtenesionServiceProvider extends ServiceProvider
         $extensionLoader = new ExtensionLoader(
             $this->spark->path(),
             $this->spark->path('extensions'),
-            $this->spark->get(ClassLoader::class)
+            $this->spark->make(ClassLoader::class)
         );
 
-        $this->spark->set(ExtensionLoader::class, $extensionLoader);
+        $this->spark->bind(ExtensionLoader::class, $extensionLoader);
     }
 
     public function boot(): void
