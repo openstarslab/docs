@@ -20,22 +20,22 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Spark\Core\Routing;
+namespace Spark\Core\HttpKernel;
 
-use Nulldark\Routing\RouteCollection;
-use Nulldark\Routing\Router;
-use Nulldark\Routing\RouterInterface;
-use Spark\Core\Support\ServiceProvider;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * @package Spark\Core\Routing
+ * @package Spark\Core\HttpKernel
  * @since 0.1.0
  */
-class RoutingServiceProvider extends ServiceProvider
+interface HttpKernelInterface
 {
-    public function register(): void
-    {
-        $this->spark->singleton(RouterInterface::class, Router::class);
-        $this->spark->singleton(RouteCollection::class, RouteCollection::class);
-    }
+    /**
+     * Handles incoming request.
+     *
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     */
+    public function handle(ServerRequestInterface $request): ResponseInterface;
 }

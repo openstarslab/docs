@@ -23,8 +23,15 @@
 namespace Spark\Core;
 
 use Composer\Autoload\ClassLoader;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Nulldark\Container\Container;
+use Nulldark\Container\ContainerInterface;
+use Nulldark\Container\Internal\Concrete\Alias;
+use Nulldark\Container\Internal\Concrete\Shared;
 use Spark\Core\Extension\ExtenesionServiceProvider;
+use Spark\Core\HttpKernel\HttpKernel;
+use Spark\Core\HttpKernel\HttpKernelInterface;
 use Spark\Core\Routing\RoutingServiceProvider;
 use Spark\Core\Support\ServiceProvider;
 
@@ -68,12 +75,12 @@ final class Spark extends Container implements SparkInterface
      */
     public function __construct(string $basePath = '')
     {
+        parent::__construct();
+
         $this->setBasePath($basePath);
 
         $this->registerBaseBindings();
         $this->registerBaseServiceProviders();
-
-        parent::__construct();
     }
 
     /**
@@ -154,6 +161,16 @@ final class Spark extends Container implements SparkInterface
         }
     }
 
+    public function run(): void
+    {
+        $response = $this->getHttpKernel()->handle(
+            ServerRequestFactory::fromGlobals()
+        );
+
+        $responseEmitter = new SapiEmitter();
+        $responseEmitter->emit($response);
+    }
+
     /**
      * Boots an application.
      *
@@ -188,9 +205,11 @@ final class Spark extends Container implements SparkInterface
     {
         // set instances into container
         $this->singleton(Spark::class, $this);
-        $this->singleton(Container::class, $this);
+        $this->singleton(Container::class, new Shared($this));
         $this->singleton(ClassLoader::class, $this->getClassLoader());
 
+        $this->bind(ContainerInterface::class, $this);
+        $this->bind(HttpKernelInterface::class, HttpKernel::class);
         $this->bind(SparkInterface::class, Spark::class, true);
     }
 
@@ -231,5 +250,14 @@ final class Spark extends Container implements SparkInterface
             \ini_set('session.cache_limiter', '');
             \ini_set('session.cookie_httponly', '1');
         }
+    }
+
+    /**
+     * Gets a http kernel for handle incoming request.
+     *
+     */
+    private function getHttpKernel(): HttpKernelInterface
+    {
+        return $this->make(HttpKernelInterface::class);
     }
 }
