@@ -186,12 +186,10 @@ final class Spark extends Container implements SparkInterface
 
     private function registerBaseBindings(): void
     {
-        static::setInstance($this);
-
         // set instances into container
-        $this->set(Spark::class, $this);
-        $this->set(Container::class, $this);
-        $this->set(ClassLoader::class, $this->getClassLoader());
+        $this->singleton(Spark::class, $this);
+        $this->singleton(Container::class, $this);
+        $this->singleton(ClassLoader::class, $this->getClassLoader());
 
         $this->bind(SparkInterface::class, Spark::class, true);
     }

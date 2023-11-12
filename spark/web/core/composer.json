@@ -6,8 +6,8 @@
     }
   },
   "require": {
-    "nulldark/container": "^0.1.0",
-    "nulldark/routing": "^1.0",
+    "nulldark/container": "^0.2.3",
+    "nulldark/routing": "^2.0",
     "nulldark/stdlib": "^2.0"
   }
 }
