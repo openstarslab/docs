@@ -3,7 +3,6 @@
   "type": "project",
   "require": {
     "php": "~8.2.0 || ~8.3.0",
-    "laminas/laminas-httphandlerrunner": "2.10.x-dev",
     "spark/core": "self.version"
   },
   "repositories": [

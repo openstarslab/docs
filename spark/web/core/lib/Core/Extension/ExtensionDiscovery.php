@@ -25,9 +25,11 @@ namespace Spark\Core\Extension;
 use FilesystemIterator;
 use Nulldark\Stdlib\Collections\Collection;
 use Nulldark\Stdlib\Collections\CollectionInterface;
+use RecursiveCallbackFilterIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Spark\Core\Extension\Discovery\RecursiveCallbackFilter;
+use SplFileInfo;
 
 /**
  * @package Spark\Core\Extension
@@ -51,7 +53,7 @@ final readonly class ExtensionDiscovery
         $directoryIterator = new RecursiveDirectoryIterator($directory, $flags);
 
         $callback = new RecursiveCallbackFilter();
-        $filter = new \RecursiveCallbackFilterIterator($directoryIterator, [$callback, 'accept']);
+        $filter = new RecursiveCallbackFilterIterator($directoryIterator, [$callback, 'accept']);
 
         $iterator = new RecursiveIteratorIterator(
             $filter,
@@ -61,7 +63,7 @@ final readonly class ExtensionDiscovery
 
         $files = [];
 
-        /** @var \SplFileInfo $value */
+        /** @var SplFileInfo $value */
         foreach ($iterator as $value) {
             $files[] = [
                 'path' => $value->getPath(),

@@ -6,8 +6,10 @@
     }
   },
   "require": {
-    "nulldark/container": "^0.2.3",
+    "nulldark/container": "^0.3.0",
     "nulldark/routing": "^2.0",
-    "nulldark/stdlib": "^2.0"
+    "nulldark/stdlib": "^2.0",
+    "laminas/laminas-httphandlerrunner": "2.10.x-dev",
+    "laminas/laminas-diactoros": "3.3.0"
   }
 }

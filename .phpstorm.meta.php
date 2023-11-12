@@ -7,4 +7,7 @@ namespace PHPSTORM_META
     override(\Nulldark\Container\Container::get(0), map([
         '' => '@',
     ]));
+    override(\Nulldark\Container\Container::make(0), map([
+        '' => '@',
+    ]));
 }

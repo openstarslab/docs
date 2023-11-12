@@ -2,30 +2,24 @@
 
 namespace Spark\Core\Routing;
 
-use Nulldark\Routing\RouteMatch;
+use Nulldark\Routing\Route;
+use function is_string;
 
 class CallableResolver
 {
-    public function resolve(RouteMatch $route): callable|false
+    public function resolve(Route $route): callable|array
     {
-        if (!$handler = $route->getDefault('_handler')) {
-            return false;
+        $callback = $route->callback();
+
+        if (is_string($callback)) {
+            $parts = explode('::', $callback);
+
+            $controller = array_shift($parts);
+            $method = array_shift($parts);
+
+            return [$controller, $method];
         }
 
-        if (\is_array($handler)) {
-            if (isset($handler[0]) && isset($handler[1])) {
-                try {
-                    $handler[0] = new $handler[0]();
-                } catch (\Error | \LogicException $e) {
-                    if (\is_callable($handler)) {
-                        return $handler;
-                    }
-
-                    throw $e;
-                }
-            }
-        }
-
-        return $handler;
+        return $callback;
     }
 }

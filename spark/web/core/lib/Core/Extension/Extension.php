@@ -37,7 +37,8 @@ abstract class Extension
         protected readonly string $name,
         protected readonly string $version,
         protected readonly string $path
-    ) {
+    )
+    {
     }
 
     /**

@@ -49,8 +49,8 @@ class ExtenesionServiceProvider extends ServiceProvider
         $extensions = $loader->getExtensions();
 
         array_walk($extensions, function (Extension $extension) {
-                $extension->setContainer($this->spark);
-                $extension->boot();
+            $extension->setContainer($this->spark);
+            $extension->boot();
         });
     }
 }

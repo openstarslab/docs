@@ -26,7 +26,10 @@ use Nulldark\Container\ContainerInterface;
 use Nulldark\Routing\RouterInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use RuntimeException;
 use Spark\Core\Routing\CallableResolver;
+use function is_callable;
+use function sprintf;
 
 /**
  * @package Spark\Core\HttpKernel
@@ -35,9 +38,11 @@ use Spark\Core\Routing\CallableResolver;
 final class HttpKernel implements HttpKernelInterface
 {
     private readonly CallableResolver $callableResolver;
+
     public function __construct(
-        private ContainerInterface $container
-    ) {
+        private readonly ContainerInterface $container
+    )
+    {
         $this->callableResolver = new CallableResolver();
     }
 
@@ -47,24 +52,26 @@ final class HttpKernel implements HttpKernelInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $route = $this->container->make(RouterInterface::class)
-            ->match($request);
+        $route = $this->container->make(RouterInterface::class)->match($request);
 
-        if (false === $handler = $this->callableResolver->resolve($route)) {
-            throw new \Exception(sprintf('Unable to find the controller for path "%s".', $request->getUri()->getPath()));
+        $callback = $this->callableResolver->resolve($route);
+
+        if (is_callable($callback)) {
+            $response = $callback();
+        } else {
+            $instance = $this->container->make($callback[0]);
+            $response = $instance->{$callback[1]}();
         }
 
-        $instance = $this->container->make($handler[0]::class);
-        $response = $instance->{$handler[1]}(...$route->getParameters());
 
         if (!($response instanceof ResponseInterface)) {
-            $msg = \sprintf('The controller must return a "Psr\Http\Message\ResponseInterface".');
+            $msg = sprintf('The controller must return a "Psr\Http\Message\ResponseInterface".');
 
             if (null === $response) {
                 $msg .= ' Did you forget to add a return statement somewhere in your controller?';
             }
 
-            throw new \RuntimeException($msg);
+            throw new RuntimeException($msg);
         }
 
         return $response;
