@@ -22,6 +22,7 @@
 
 namespace Spark\Core\Routing;
 
+use Nulldark\Routing\Route;
 use Nulldark\Routing\RouteCollection;
 use Nulldark\Routing\Router;
 use Nulldark\Routing\RouterInterface;
@@ -36,6 +37,5 @@ class RoutingServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->spark->singleton(RouterInterface::class, Router::class);
-        $this->spark->singleton(RouteCollection::class, RouteCollection::class);
     }
 }
