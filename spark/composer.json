@@ -3,7 +3,8 @@
   "type": "project",
   "require": {
     "php": "~8.2.0 || ~8.3.0",
-    "spark/core": "self.version"
+    "spark/core": "self.version",
+    "twig/twig": "3.x-dev"
   },
   "repositories": [
     {

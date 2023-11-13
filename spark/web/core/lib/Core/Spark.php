@@ -173,6 +173,8 @@ final class Spark extends Container implements SparkInterface
 
         $this->booted = true;
 
+        //Tu render
+
         return $this;
     }
 
