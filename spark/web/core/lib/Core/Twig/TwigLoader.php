@@ -17,6 +17,11 @@ final class TwigLoader implements TwigLoaderInterface
      */
     public function load(array $params, string $templatesPath): void
     {
+        //TODO tu bym robił tak że
+        // 1 To theme Registry jest początkiem i w nim pobieram path do aktualnego rozszerzenia i resztę danych
+        // 2 w Twig loaderze dostaje już te dane i działam z nimi. Funkcja load mi wywoła podstronę odpowiednią
+        // 3 Ma otrzymywać nazwę endpointa. Rozkmiń czy tak samo ma się nazywać twig
+        // 4 Dodaj też możliwość działania na tym twigu przy pomocy php
         $templatesPath = __DIR__ . '/templates';
 //        $this->spark->path('themes'); <- Zwróci mi patf
 //
