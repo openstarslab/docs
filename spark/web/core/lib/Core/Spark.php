@@ -23,10 +23,23 @@
 namespace Spark\Core;
 
 use Composer\Autoload\ClassLoader;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use Nulldark\Container\Concrete\Shared;
 use Nulldark\Container\Container;
+use Nulldark\Container\ContainerInterface;
 use Spark\Core\Extension\ExtenesionServiceProvider;
+use Spark\Core\HttpKernel\HttpKernel;
+use Spark\Core\HttpKernel\HttpKernelInterface;
 use Spark\Core\Routing\RoutingServiceProvider;
 use Spark\Core\Support\ServiceProvider;
+use function error_reporting;
+use function ini_set;
+use function mb_internal_encoding;
+use function mb_language;
+use function setlocale;
+use const LC_ALL;
+use const PHP_SAPI;
 
 /**
  * @package Spark\Core
@@ -68,12 +81,12 @@ final class Spark extends Container implements SparkInterface
      */
     public function __construct(string $basePath = '')
     {
+        parent::__construct();
+
         $this->setBasePath($basePath);
 
         $this->registerBaseBindings();
         $this->registerBaseServiceProviders();
-
-        parent::__construct();
     }
 
     /**
@@ -88,12 +101,44 @@ final class Spark extends Container implements SparkInterface
         return $this;
     }
 
+    private function registerBaseBindings(): void
+    {
+        // set instances into container
+        $this->singleton(Spark::class, $this);
+        $this->singleton(Container::class, new Shared($this));
+        $this->singleton(ClassLoader::class, $this->getClassLoader());
+
+        $this->bind(ContainerInterface::class, $this);
+        $this->bind(HttpKernelInterface::class, HttpKernel::class);
+        $this->bind(SparkInterface::class, Spark::class, true);
+    }
+
+    /**
+     * Gets a class loader instance.
+     *
+     * @return ClassLoader
+     */
+    public function getClassLoader(): ClassLoader
+    {
+        if ($this->classLoader !== null) {
+            return $this->classLoader;
+        }
+
+        return $this->classLoader = require $this->path('autoload.php');
+    }
+
     /**
      * @inheritDoc
      */
     public function path(string $path = ''): string
     {
         return $this->basePath . ($path != '' ? DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR) : '');
+    }
+
+    private function registerBaseServiceProviders(): void
+    {
+        $this->register(new RoutingServiceProvider($this));
+        $this->register(new ExtenesionServiceProvider($this));
     }
 
     /**
@@ -116,17 +161,6 @@ final class Spark extends Container implements SparkInterface
     }
 
     /**
-     * Sets given service provider as registered.
-     *
-     * @param ServiceProvider $provider
-     * @return void
-     */
-    public function setProviderAsRegistered(ServiceProvider $provider): void
-    {
-        $this->serviceProviders[get_class($provider)] = $provider;
-    }
-
-    /**
      * Gets the registered service provider instance if not exists returns `NULL`.
      *
      * @param ServiceProvider $provider
@@ -139,6 +173,25 @@ final class Spark extends Container implements SparkInterface
         }
 
         return null;
+    }
+
+    /**
+     * Sets given service provider as registered.
+     *
+     * @param ServiceProvider $provider
+     * @return void
+     */
+    public function setProviderAsRegistered(ServiceProvider $provider): void
+    {
+        $this->serviceProviders[get_class($provider)] = $provider;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isBooted(): bool
+    {
+        return $this->booted;
     }
 
     /**
@@ -176,60 +229,41 @@ final class Spark extends Container implements SparkInterface
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function isBooted(): bool
-    {
-        return $this->booted;
-    }
-
-    private function registerBaseBindings(): void
-    {
-        // set instances into container
-        $this->singleton(Spark::class, $this);
-        $this->singleton(Container::class, $this);
-        $this->singleton(ClassLoader::class, $this->getClassLoader());
-
-        $this->bind(SparkInterface::class, Spark::class, true);
-    }
-
-    /**
-     * Gets a class loader instance.
-     *
-     * @return ClassLoader
-     */
-    public function getClassLoader(): ClassLoader
-    {
-        if ($this->classLoader !== null) {
-            return $this->classLoader;
-        }
-
-        return $this->classLoader = require $this->path('autoload.php');
-    }
-
-    private function registerBaseServiceProviders(): void
-    {
-        $this->register(new RoutingServiceProvider($this));
-        $this->register(new ExtenesionServiceProvider($this));
-    }
-
     private function initializeSettings(): void
     {
-        \error_reporting(E_STRICT | E_ALL);
+        error_reporting(E_STRICT | E_ALL);
 
         // Set correct locale settings, to ensure consistent.
-        \setlocale(\LC_ALL, 'C');
+        setlocale(LC_ALL, 'C');
 
         // Sets configuration for multibyte strings.
-        \mb_internal_encoding('utf8');
-        \mb_language('uni');
+        mb_internal_encoding('utf8');
+        mb_language('uni');
 
-        if (\PHP_SAPI !== 'cli') {
-            \ini_set('session.use_cookies', '1');
-            \ini_set('session.use_only_cookies', '1');
-            \ini_set('session.cache_limiter', '');
-            \ini_set('session.cookie_httponly', '1');
+        if (PHP_SAPI !== 'cli') {
+            ini_set('session.use_cookies', '1');
+            ini_set('session.use_only_cookies', '1');
+            ini_set('session.cache_limiter', '');
+            ini_set('session.cookie_httponly', '1');
         }
+    }
+
+    public function run(): void
+    {
+        $response = $this->getHttpKernel()->handle(
+            ServerRequestFactory::fromGlobals()
+        );
+
+        $responseEmitter = new SapiEmitter();
+        $responseEmitter->emit($response);
+    }
+
+    /**
+     * Gets a http kernel for handle incoming request.
+     *
+     */
+    private function getHttpKernel(): HttpKernelInterface
+    {
+        return $this->make(HttpKernelInterface::class);
     }
 }

@@ -20,37 +20,22 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Spark\Core\Extension;
+namespace Spark\Core\HttpKernel;
 
-use Composer\Autoload\ClassLoader;
-use Spark\Core\Support\ServiceProvider;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * @package Spark\Core\Extenesion
+ * @package Spark\Core\HttpKernel
  * @since 0.1.0
  */
-class ExtenesionServiceProvider extends ServiceProvider
+interface HttpKernelInterface
 {
-    public function register(): void
-    {
-        $extensionLoader = new ExtensionLoader(
-            $this->spark->path(),
-            $this->spark->path('extensions'),
-            $this->spark->make(ClassLoader::class)
-        );
-
-        $this->spark->bind(ExtensionLoader::class, $extensionLoader);
-    }
-
-    public function boot(): void
-    {
-        /** @var ExtensionLoader $loader */
-        $loader = $this->spark->get(ExtensionLoader::class);
-        $extensions = $loader->getExtensions();
-
-        array_walk($extensions, function (Extension $extension) {
-            $extension->setContainer($this->spark);
-            $extension->boot();
-        });
-    }
+    /**
+     * Handles incoming request.
+     *
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     */
+    public function handle(ServerRequestInterface $request): ResponseInterface;
 }

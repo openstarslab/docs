@@ -25,7 +25,10 @@ namespace Spark\Core\Extension;
 use Composer\Autoload\ClassLoader;
 use LogicException;
 use RuntimeException;
-use SplFileInfo;
+use function assert;
+use function count;
+use function is_array;
+use function is_string;
 
 /**
  * @package Spark\Core\Extension
@@ -51,10 +54,11 @@ final class ExtensionLoader
     private array $extensions;
 
     public function __construct(
-        protected readonly string $projectDir,
-        protected readonly string $extensionDir,
+        protected readonly string      $projectDir,
+        protected readonly string      $extensionDir,
         protected readonly ClassLoader $classLoader
-    ) {
+    )
+    {
     }
 
     /**
@@ -72,27 +76,17 @@ final class ExtensionLoader
     }
 
     /**
-     * Gets an `ExtensionDiscovery` instance.
-     *
-     * @return ExtensionDiscovery
-     */
-    public function getExtensionDiscovery(): ExtensionDiscovery
-    {
-        return new ExtensionDiscovery();
-    }
-
-    /**
      * Loads all extensions from filesystem.
      *
-     * @internal
      * @return void
+     * @internal
      */
     private function doScanExtensions(): void
     {
         $this->getExtensionDiscovery()
             ->scanDirectory($this->extensionDir)
             ->each(function ($extension) {
-                if (!\is_array($extension)) {
+                if (!is_array($extension)) {
                     return;
                 }
 
@@ -104,6 +98,122 @@ final class ExtensionLoader
         $this->initializeExtensions();
 
         $this->initialized = true;
+    }
+
+    /**
+     * Gets an `ExtensionDiscovery` instance.
+     *
+     * @return ExtensionDiscovery
+     */
+    public function getExtensionDiscovery(): ExtensionDiscovery
+    {
+        return new ExtensionDiscovery();
+    }
+
+    /**
+     * Loads information about an extension.
+     *
+     * @param array{path: string, pathname: string} $extension
+     *
+     * @return void
+     */
+    private function loadExtensionInfos(array $extension): void
+    {
+        $content = file_get_contents($extension['pathname']);
+        assert(is_string($content));
+
+        $json = json_decode($content, true);
+        assert(is_array($json));
+
+        if (isset($json['extra'])) {
+            $extra = $json['extra'];
+
+            $this->extensionInfos[] = [
+                'name' => $extra['name'],
+                'version' => $extra['version'],
+                'path' => $extension['path'],
+                'baseClass' => $extra['baseClass'],
+                'autoload' => $json['autoload']
+            ];
+        }
+    }
+
+    /**
+     * Registers extension namespaces into composer class loader.
+     *
+     * @return void
+     *
+     * @throws RuntimeException
+     */
+    private function registerNamespaces(): void
+    {
+        foreach ($this->extensionInfos as $extension) {
+            assert(is_string($extension['baseClass']));
+            $extensionName = $extension['name'] ?? $extension['baseClass'];
+
+            if (!isset($extension['autoload'])) {
+                throw new RuntimeException(sprintf(
+                    'Unable to register extension "%s" in autoload. Required property `autoload` missing.',
+                    $extensionName
+                ));
+            }
+
+            $psr4 = $extension['autoload']['psr-4'] ?? [];
+
+            if (count($psr4) === 0) {
+                throw new RuntimeException(sprintf(
+                    'Unable to register extension "%s" in autoload. Required property `psr-4` missing.',
+                    $extensionName
+                ));
+            }
+
+            /**
+             * @var string $namespace
+             * @var list<string>|string $paths
+             */
+            foreach ($psr4 as $namespace => $paths) {
+                if (is_string($paths)) {
+                    $paths = [$paths];
+                }
+
+                $mappedPaths = $this->autoloadPathMaps($extensionName, $paths, $extension['path']);
+                $this->classLoader->addPsr4($namespace, $mappedPaths);
+                if ($this->classLoader->isClassMapAuthoritative()) {
+                    $this->classLoader->setClassMapAuthoritative(false);
+                }
+            }
+        }
+    }
+
+    /**
+     * Prepares given paths to composer autoload.
+     *
+     * @param string $extension
+     * @param string[] $paths
+     * @param string $extensionPath
+     *
+     * @return list<string>
+     *
+     * @throws RuntimeException
+     */
+    private function autoloadPathMaps(string $extension, array $paths, string $extensionPath): array
+    {
+        if (mb_strpos($extensionPath, $this->projectDir) !== 0) {
+            throw new RuntimeException(
+                sprintf(
+                    'Extension dir %s needs to be a sub-directory of the project dir %s',
+                    $extension,
+                    $this->projectDir
+                )
+            );
+        }
+
+        $mapped = [];
+        foreach ($paths as $path) {
+            $mapped[] = $extensionPath . DIRECTORY_SEPARATOR . $path;
+        }
+
+        return $mapped;
     }
 
     /**
@@ -148,111 +258,5 @@ final class ExtensionLoader
                 $extensionInfo['path']
             );
         }
-    }
-
-    /**
-     * Loads information about an extension.
-     *
-     * @param array{path: string, pathname: string} $extension
-     *
-     * @return void
-     */
-    private function loadExtensionInfos(array $extension): void
-    {
-        $content = file_get_contents($extension['pathname']);
-        assert(is_string($content));
-
-        $json = json_decode($content, true);
-        assert(is_array($json));
-
-        if (isset($json['extra'])) {
-            $extra = $json['extra'];
-
-            $this->extensionInfos[] = [
-                'name' => $extra['name'],
-                'version' => $extra['version'],
-                'path' => $extension['path'],
-                'baseClass' => $extra['baseClass'],
-                'autoload' => $json['autoload']
-            ];
-        }
-    }
-
-    /**
-     * Registers extension namespaces into composer class loader.
-     *
-     * @return void
-     *
-     * @throws RuntimeException
-     */
-    private function registerNamespaces(): void
-    {
-        foreach ($this->extensionInfos as $extension) {
-            \assert(\is_string($extension['baseClass']));
-            $extensionName = $extension['name'] ?? $extension['baseClass'];
-
-            if (!isset($extension['autoload'])) {
-                throw new \RuntimeException(sprintf(
-                    'Unable to register extension "%s" in autoload. Required property `autoload` missing.',
-                    $extensionName
-                ));
-            }
-
-            $psr4 = $extension['autoload']['psr-4'] ?? [];
-
-            if (\count($psr4) === 0) {
-                throw new \RuntimeException(sprintf(
-                    'Unable to register extension "%s" in autoload. Required property `psr-4` missing.',
-                    $extensionName
-                ));
-            }
-
-            /**
-             * @var string $namespace
-             * @var list<string>|string $paths
-             */
-            foreach ($psr4 as $namespace => $paths) {
-                if (\is_string($paths)) {
-                    $paths = [$paths];
-                }
-
-                $mappedPaths = $this->autoloadPathMaps($extensionName, $paths, $extension['path']);
-                $this->classLoader->addPsr4($namespace, $mappedPaths);
-                if ($this->classLoader->isClassMapAuthoritative()) {
-                    $this->classLoader->setClassMapAuthoritative(false);
-                }
-            }
-        }
-    }
-
-    /**
-     * Prepares given paths to composer autoload.
-     *
-     * @param string $extension
-     * @param string[] $paths
-     * @param string $extensionPath
-     *
-     * @return list<string>
-     *
-     * @throws RuntimeException
-     */
-    private function autoloadPathMaps(string $extension, array $paths, string $extensionPath): array
-    {
-        if (mb_strpos($extensionPath, $this->projectDir) !== 0) {
-            throw new RuntimeException(
-                sprintf(
-                    'Extension dir %s needs to be a sub-directory of the project dir %s',
-                    $extension,
-                    $this->projectDir
-                )
-            );
-        }
-
-        $mapped = [];
-        foreach ($paths as $path) {
-            $mapped[] = $extensionPath . DIRECTORY_SEPARATOR . $path;
-        }
-
-        return $mapped;
     }
 }

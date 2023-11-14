@@ -22,8 +22,6 @@
 
 namespace Spark\Core\Routing;
 
-use Nulldark\Routing\Route;
-use Nulldark\Routing\RouteCollection;
 use Nulldark\Routing\Router;
 use Nulldark\Routing\RouterInterface;
 use Spark\Core\Support\ServiceProvider;
