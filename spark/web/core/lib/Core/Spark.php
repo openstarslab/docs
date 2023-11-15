@@ -25,6 +25,7 @@ namespace Spark\Core;
 use Composer\Autoload\ClassLoader;
 use Nulldark\Container\Container;
 use Spark\Core\Extension\ExtenesionServiceProvider;
+use Spark\Core\Extension\ThemeServiceProvider;
 use Spark\Core\Routing\RoutingServiceProvider;
 use Spark\Core\Support\ServiceProvider;
 
@@ -214,6 +215,7 @@ final class Spark extends Container implements SparkInterface
     {
         $this->register(new RoutingServiceProvider($this));
         $this->register(new ExtenesionServiceProvider($this));
+        $this->register(new ThemeServiceProvider($this));
     }
 
     private function initializeSettings(): void

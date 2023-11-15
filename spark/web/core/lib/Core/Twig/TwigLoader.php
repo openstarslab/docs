@@ -8,7 +8,7 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
 
-final class TwigLoader implements TwigLoaderInterface
+final class TwigLoader implements Engine
 {
     /**
      * @throws SyntaxError
