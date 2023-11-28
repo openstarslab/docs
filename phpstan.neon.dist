@@ -1,0 +1,11 @@
+parameters:
+    level: max
+    tmpDir: .build/cache/phpstan
+    tipsOfTheDay: false
+    treatPhpDocTypesAsCertain: false
+    checkGenericClassInNonGenericObjectType: false
+    checkMissingIterableValueType: false
+    reportUnmatchedIgnoredErrors: false
+    paths:
+        - app/
+        - tests/

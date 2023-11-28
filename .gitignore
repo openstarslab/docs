@@ -1,4 +1,12 @@
+## IDE
 .idea/
 .vscode/
 
-.env
+## Composer
+vendor/
+
+## QA Tools
+phpcs.xml.dist
+phpstan.neon
+phpunit.xml
+psalm.xml

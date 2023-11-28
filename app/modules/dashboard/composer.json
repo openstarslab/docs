@@ -1,0 +1,15 @@
+{
+  "name": "spark/dasboard",
+  "type": "spark-core-extenesion",
+  "extra": {
+    "name": "dashboard",
+    "active": "true",
+    "spark-extension-class": "\\Spark\\Modules\\Dashboard\\Dashboard",
+    "version": "0.0.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Spark\\Modules\\Dashboard\\": "src/"
+    }
+  }
+}
