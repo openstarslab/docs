@@ -1480,6 +1480,63 @@
             "time": "2023-04-10T20:06:20+00:00"
         },
         {
+            "name": "psr/http-server-middleware",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-server-middleware.git",
+                "reference": "c1481f747daaa6a0782775cd6a8c26a1bf4a3829"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-server-middleware/zipball/c1481f747daaa6a0782775cd6a8c26a1bf4a3829",
+                "reference": "c1481f747daaa6a0782775cd6a8c26a1bf4a3829",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0",
+                "psr/http-message": "^1.0 || ^2.0",
+                "psr/http-server-handler": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Server\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP server-side middleware",
+            "keywords": [
+                "http",
+                "http-interop",
+                "middleware",
+                "psr",
+                "psr-15",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "support": {
+                "issues": "https://github.com/php-fig/http-server-middleware/issues",
+                "source": "https://github.com/php-fig/http-server-middleware/tree/1.0.2"
+            },
+            "time": "2023-04-11T06:14:47+00:00"
+        },
+        {
             "name": "psr/log",
             "version": "3.0.0",
             "source": {
@@ -1781,12 +1838,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openstarslab/spark-core.git",
-                "reference": "2faeb29bdca696e07847289c2661e4500f8cb1c1"
+                "reference": "81aa13e2c45afbf911f301c2dae9e60eaed32146"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openstarslab/spark-core/zipball/2faeb29bdca696e07847289c2661e4500f8cb1c1",
-                "reference": "2faeb29bdca696e07847289c2661e4500f8cb1c1",
+                "url": "https://api.github.com/repos/openstarslab/spark-core/zipball/81aa13e2c45afbf911f301c2dae9e60eaed32146",
+                "reference": "81aa13e2c45afbf911f301c2dae9e60eaed32146",
                 "shasum": ""
             },
             "require": {
@@ -1800,6 +1857,8 @@
                 "nyholm/psr7-server": "^1.1",
                 "psr/cache": "^3.0",
                 "psr/event-dispatcher": "^1.0",
+                "psr/http-server-handler": "^1.0",
+                "psr/http-server-middleware": "^1.0",
                 "psr/log": "^3.0"
             },
             "require-dev": {
@@ -1820,7 +1879,10 @@
             "autoload": {
                 "psr-4": {
                     "Spark\\": "lib/Spark"
-                }
+                },
+                "classmap": [
+                    "lib/Spark.php"
+                ]
             },
             "autoload-dev": {
                 "psr-4": {
@@ -1897,11 +1959,11 @@
                     "url": "https://github.com/nulldark"
                 }
             ],
-            "time": "2023-11-28T15:52:53+00:00"
+            "time": "2023-11-30T20:13:15+00:00"
         },
         {
             "name": "symfony/console",
-            "version": "v7.0.0-RC2",
+            "version": "v7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
@@ -1974,7 +2036,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v7.0.0-RC2"
+                "source": "https://github.com/symfony/console/tree/v7.0.0"
             },
             "funding": [
                 {
@@ -1994,7 +2056,7 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v7.0.0-RC1",
+            "version": "v7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
@@ -2037,7 +2099,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v7.0.0-RC1"
+                "source": "https://github.com/symfony/filesystem/tree/v7.0.0"
             },
             "funding": [
                 {
@@ -2057,7 +2119,7 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v7.0.0-RC1",
+            "version": "v7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -2101,7 +2163,7 @@
             "description": "Finds files and directories via an intuitive fluent interface",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/finder/tree/v7.0.0-RC1"
+                "source": "https://github.com/symfony/finder/tree/v7.0.0"
             },
             "funding": [
                 {
@@ -2692,7 +2754,7 @@
         },
         {
             "name": "symfony/process",
-            "version": "v7.0.0-RC2",
+            "version": "v7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
@@ -2733,7 +2795,7 @@
             "description": "Executes commands in sub-processes",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/process/tree/v7.0.0-RC2"
+                "source": "https://github.com/symfony/process/tree/v7.0.0"
             },
             "funding": [
                 {
@@ -2835,16 +2897,16 @@
         },
         {
             "name": "symfony/string",
-            "version": "v7.0.0-RC2",
+            "version": "v7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "a3b57cc569e019d27159a3b7e51b312d06d7974d"
+                "reference": "92bd2bfbba476d4a1838e5e12168bef2fd1e6620"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/a3b57cc569e019d27159a3b7e51b312d06d7974d",
-                "reference": "a3b57cc569e019d27159a3b7e51b312d06d7974d",
+                "url": "https://api.github.com/repos/symfony/string/zipball/92bd2bfbba476d4a1838e5e12168bef2fd1e6620",
+                "reference": "92bd2bfbba476d4a1838e5e12168bef2fd1e6620",
                 "shasum": ""
             },
             "require": {
@@ -2901,7 +2963,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/v7.0.0-RC2"
+                "source": "https://github.com/symfony/string/tree/v7.0.0"
             },
             "funding": [
                 {
@@ -2917,7 +2979,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-11-20T16:43:42+00:00"
+            "time": "2023-11-29T08:40:23+00:00"
         }
     ],
     "packages-dev": [
